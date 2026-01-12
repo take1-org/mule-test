@@ -1,0 +1,29 @@
+#%RAML 1.0
+title: take1-api
+version: v1
+baseUri: /api
+mediaType: application/json
+
+/users:
+  get:
+    description: Get users
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [
+                { "id": 1, "name": "kita" }
+              ]
+  post:
+    description: Create user
+    body:
+      application/json:
+        example:
+          { "name": "new-user" }
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              { "id": 2, "name": "new-user" }
