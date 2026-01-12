@@ -27,4 +27,4 @@ jobs:
           cache: maven
 
       - name: Build (mvn clean package)
-        run: mvn -B clean pacage
+        run: mvn -B clean package
