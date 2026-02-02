@@ -1,0 +1,34 @@
+name: ci-maven-package (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      working_directory:
+        type: string
+        required: true
+        default: take1-api
+      java_version:
+        type: string
+        required: false
+        default: "17"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ inputs.java_version }}
+          cache: maven
+
+      - name: Build (mvn clean package)
+        run: mvn -B clean package
