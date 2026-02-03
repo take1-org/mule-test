@@ -1,0 +1,25 @@
+#%RAML 1.0
+title: take1-proc-api
+version: v1
+baseUri: /api
+
+/health:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: { "status": "ok" }
+
+/orders/normalize:
+  post:
+    body:
+      application/json:
+        example:
+          {
+            "orderId": "A001",
+            "amount": 1000,
+            "items": [
+              { "sku": "SKU-1", "qty": 2, "price": 300 }
+            ]
+          }
