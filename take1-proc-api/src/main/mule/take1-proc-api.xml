@@ -7,7 +7,7 @@
     <flow name="take1-proc-api-main">
         <http:listener config-ref="take1-proc-api-httpListenerConfig" path="/api/*" responseStreamingMode="NEVER">
             <non-repeatable-stream />
-			<http:response statusCode="#[vars.httpStatus default 200]">
+            <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
@@ -189,8 +189,7 @@ else
   items: normalizedItems,
   items_total: itemsTotal,
   items_count: sizeOf(normalizedItems)
-}
-]]></ee:set-payload>
+}]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
