@@ -1,0 +1,43 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <!-- ========================= -->
+  <!-- GitHub Packages 認証設定 -->
+  <!-- ========================= -->
+  <servers>
+    <server>
+      <id>github</id>
+      <username>YOUR_GITHUB_USERNAME</username>
+      <password>YOUR_PAT_CLASSIC</password>
+    </server>
+  </servers>
+
+  <!-- ========================= -->
+  <!-- GitHub Maven Repository -->
+  <!-- ========================= -->
+  <profiles>
+    <profile>
+      <id>use-github-packages</id>
+      <repositories>
+        <repository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/take1-org/parent-pom</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <!-- 常に有効化 -->
+  <activeProfiles>
+    <activeProfile>use-github-packages</activeProfile>
+  </activeProfiles>
+
+</settings>
