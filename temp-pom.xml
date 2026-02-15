@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- ★親POMの座標（子はここを parent として参照する） -->
+  <groupId>com.example.mule</groupId>
+  <artifactId>mule-parent</artifactId>
+  <version>test-v0.0.0</version>
+  <packaging>pom</packaging>
+  <name>mule-parent</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Mule / Plugin versions（案件の標準に合わせて固定） -->
+    <mule.runtime.version>4.4.0</mule.runtime.version>
+    <mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
+    <munit.version>3.2.0</munit.version>
+
+    <!-- よくある制御 -->
+    <skipTests>false</skipTests>
+  </properties>
+
+  <!-- 子が依存を引くための repositories（必要に応じて追加/削除） -->
+  <repositories>
+    <repository>
+      <id>anypoint-exchange</id>
+      <name>Anypoint Exchange</name>
+      <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+    </repository>
+    <repository>
+      <id>mulesoft-releases</id>
+      <name>MuleSoft Releases Repository</name>
+      <url>https://repository.mulesoft.org/releases/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>mulesoft-releases</id>
+      <name>MuleSoft Releases Repository</name>
+      <url>https://repository.mulesoft.org/releases/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <!-- ★GitHub Packages へ publish（親POMリポに紐づく） -->
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/take1-org/parent-pom</url>
+    </repository>
+    <snapshotRepository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/OWNER/REPO</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <!-- 子側の build を統制したい設定は pluginManagement に寄せる -->
+  <build>
+    <pluginManagement>
+      <plugins>
+
+        <!-- Mule Maven Plugin（パッケージング/デプロイに使う） -->
+        <plugin>
+          <groupId>org.mule.tools.maven</groupId>
+          <artifactId>mule-maven-plugin</artifactId>
+          <version>${mule.maven.plugin.version}</version>
+          <extensions>true</extensions>
+        </plugin>
+
+        <!-- MUnit（CIで test を回すなら子が継承できるように） -->
+        <plugin>
+          <groupId>com.mulesoft.munit.tools</groupId>
+          <artifactId>munit-maven-plugin</artifactId>
+          <version>${munit.version}</version>
+          <executions>
+            <execution>
+              <id>munit-test</id>
+              <phase>test</phase>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <configuration>
+                <skipMunitTests>${skipTests}</skipMunitTests>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>
