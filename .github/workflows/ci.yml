@@ -3,11 +3,17 @@ name: ci-maven-package
 on:
   pull_request:
     branches: ["main"]
+    paths-ignore:
+      - "README.md"
+      - "docs/**"
 
   push:
     branches:
       - "feature/**"
       - "feat/**"
+    paths-ignore:
+      - "README.md"
+      - "docs/**"
 
 jobs:
   build:
