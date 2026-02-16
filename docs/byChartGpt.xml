@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.mx.s4k</groupId>
+  <artifactId>mx-common-parent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>mx-common-parent</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <app.runtime>4.4.0</app.runtime>
+    <mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
+
+    <mule-apikit-module.version>1.11.12</mule-apikit-module.version>
+    <mule-http-connector.version>1.11.1</mule-http-connector.version>
+    <mule-sockets-connector.version>1.2.7</mule-sockets-connector.version>
+    <mule-validation-module.version>2.0.8</mule-validation-module.version>
+
+    <mule-objectstore-connector.version>1.2.5</mule-objectstore-connector.version>
+    <mule-sftp-connector.version>2.6.3</mule-sftp-connector.version>
+    <mule-sap-s4hana-cloud-connector.version>2.9.3</mule-sap-s4hana-cloud-connector.version>
+    <mule-db-connector.version>1.15.0</mule-db-connector.version>
+    <org.postgresql.version>42.7.8</org.postgresql.version>
+
+    <mx-common.version>1.0.0</mx-common.version>
+    <mx-common-exp.version>1.0.0</mx-common-exp.version>
+    <mx-common-prc.version>1.0.0</mx-common-prc.version>
+    <mx-common-sys.version>1.0.0</mx-common-sys.version>
+
+    <mule-secure-configuration-property-module.version>1.3.0</mule-secure-configuration-property-module.version>
+    <mule-cryptography-module.version>2.0.0</mule-cryptography-module.version>
+    <mule-oauth-module.version>1.1.21</mule-oauth-module.version>
+
+    <munit-runner.version>3.7.0</munit-runner.version>
+    <munit-tools.version>3.7.0</munit-tools.version>
+    <org.mule.weave.version>1.2.1</org.mule.weave.version>
+
+    <!-- CIのdiff抑止（並び順＆整形固定） -->
+    <sortpom.version>4.0.0</sortpom.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>anypoint-exchange-v3</id>
+      <name>Anypoint Exchange</name>
+      <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <!-- POMの並び順固定（CIでdiffを出さない） -->
+        <plugin>
+          <groupId>com.github.ekryd.sortpom</groupId>
+          <artifactId>sortpom-maven-plugin</artifactId>
+          <version>${sortpom.version}</version>
+          <configuration>
+            <!-- “ソートして整形する” を統一 -->
+            <createBackupFile>false</createBackupFile>
+            <expandEmptyElements>false</expandEmptyElements>
+            <keepBlankLines>true</keepBlankLines>
+            <nrOfIndentSpace>2</nrOfIndentSpace>
+
+            <!-- 改行差（Windows/Linux）でdiffを出さない -->
+            <ignoreLineSeparators>true</ignoreLineSeparators>
+
+            <!-- Maven推奨の論理順に寄せる（迷ったらこれで良い） -->
+            <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <!-- 親POM自身のCIでも必ず整形をかけたい場合はここでexecution -->
+    <plugins>
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sort-pom</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sort</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
