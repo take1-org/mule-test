@@ -1,0 +1,28 @@
+mkdir -p /tmp/repo_branch_init && cd /tmp/repo_branch_init
+
+while read -r full; do
+  echo "=== $full ==="
+  repo="${full#*/}"
+  rm -rf "$repo"
+
+  # まず clone（空リポだと失敗する場合あり）
+  if gh repo clone "$full" "$repo"; then
+    cd "$repo" || continue
+  else
+    # 空リポでclone不能な場合：ローカルでinitして origin を付ける
+    mkdir -p "$repo" && cd "$repo" || continue
+    git init
+    git remote add origin "https://github.com/$full.git"
+  fi
+
+  # main を作る（空コミットでブランチを確定）
+  git checkout -B main
+  git commit --allow-empty -m "chore: init main branch"
+  git push -u origin main
+
+  # develop を main から作る（空コミット不要）
+  git checkout -B develop main
+  git push -u origin develop
+
+  cd ..
+done < ../repos.txt
